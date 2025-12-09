@@ -19,9 +19,8 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 ---
 
 ## Mục lục
- [🛒 E-Commerce System](#-e-commerce-system)
 - [🛒 E-Commerce System](#-e-commerce-system)
-- [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
+  - [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
   - [Mục lục](#mục-lục)
   - [✨ Tính Năng Chính (Key Features)](#-tính-năng-chính-key-features)
   - [🏗️ Kiến trúc tổng thể](#️-kiến-trúc-tổng-thể)
