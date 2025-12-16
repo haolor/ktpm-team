@@ -1,7 +1,6 @@
 package com.e_commerce.exceptions;
 
 import lombok.AllArgsConstructor;
-
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,11 +20,12 @@ public enum ErrorResponse {
     // Account Errors
     ACCOUNT_NOT_FOUND(1001, "Account not found", HttpStatus.NOT_FOUND),
     ACCOUNT_ALREADY_EXISTS(1002, "Account already exists", HttpStatus.CONFLICT),
+    ACCOUNT_ALREADY_VERIFIED(1003, "Account is already verified", HttpStatus.BAD_REQUEST),
     ACCOUNT_EMAIL_INVALID(1003, "Invalid email format", HttpStatus.BAD_REQUEST),
     ACCOUNT_INVALID_PASSWORD(1004, "Invalid password", HttpStatus.BAD_REQUEST),
     ACCOUNT_PASSWORD_TO_SHORT(1005, "Password account to short", HttpStatus.BAD_REQUEST),
     ACCOUNT_PASSWORD_MISMATCH(1006, "Password do not match", HttpStatus.BAD_REQUEST),
-    ACCOUNT_LOCKED(1007, "Account locked due to entering wrong password too many times", HttpStatus.FORBIDDEN),
+    ACCOUNT_LOCKED(1007, "Account locked", HttpStatus.FORBIDDEN),
     ACCOUNT_DISABLED(1008, "Account is disabled", HttpStatus.FORBIDDEN),
     ACCOUNT_MAX_LOGIN_ATTEMPTS_EXCEEDED(1009, "Maximum login attempts exceeded. Please try again later.", HttpStatus.FORBIDDEN),
     ACCOUNT_LOCKED_TOO_MANY_ATTEMPTS(1010, "Account is locked due to too many failed login attempts. Please try again later.", HttpStatus.FORBIDDEN),
@@ -96,6 +96,8 @@ public enum ErrorResponse {
     ORDER_TOTAL_PRICE_INVALID(6006, "Invalid order total price", HttpStatus.BAD_REQUEST),
     ORDER_ACCESS_DENIED(6007, "Access denied to order", HttpStatus.FORBIDDEN),
     ORDER_TIME_INVALID(6008, "Invalid order time", HttpStatus.BAD_REQUEST),
+    ORDER_STATUS_NOT_ALLOWED(6009, "This order status change is not allowed", HttpStatus.BAD_REQUEST),
+
 
     // Order Items Errors
     ORDER_ITEM_NOT_FOUND(6101, "Order item not found", HttpStatus.NOT_FOUND),

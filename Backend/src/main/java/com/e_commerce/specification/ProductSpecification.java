@@ -18,8 +18,17 @@ public class ProductSpecification {
 
             // Filter theo categoryId
             if (productFilter.getCategoryId() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("category").get("id"), productFilter.getCategoryId()));
+                predicates.add(root.get("category").get("id").in(productFilter.getCategoryId()));
             }
+
+            // Filter theo restaurantId
+            if (productFilter.getRestaurantId() != null) {
+                predicates.add(criteriaBuilder.equal(
+                        root.get("restaurant").get("id"),
+                        productFilter.getRestaurantId()
+                ));
+            }
+
 
             // Filter theo trạng thái status
             if (productFilter.getStatus() != null) {

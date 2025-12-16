@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -91,5 +92,23 @@ public class AccountController {
     public ResponseEntity<ApiResponse<OtpVerificationResponseDTO>> verifyOtp(@RequestBody @Valid OtpVerificationRequestDTO otpVerificationDTO, HttpServletRequest request) {
         OtpVerificationResponseDTO responseDTO = accountService.verifyOtp(otpVerificationDTO);
         return ResponseEntity.ok(new ApiResponse<>(true, "OTP verified successfully", responseDTO, null, request.getRequestURI()));
+    }
+
+    @PostMapping("/resend-verification")
+    public ResponseEntity<ApiResponse<Void>> resendVerificationEmail(@RequestParam("email") String email, HttpServletRequest request) {
+        accountService.resendVerificationEmail(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Verification email resent successfully", null, null, request.getRequestURI()));
+    }
+
+    @PutMapping("/{id}/lock")
+    public ResponseEntity<ApiResponse<Void>> lockAccount(@PathVariable int id, HttpServletRequest request) {
+        accountService.lockAccount(id);
+        return ResponseEntity.ok(new ApiResponse<>(true,"Account locked successfully", null, null, request.getRequestURI()));
+    }
+
+    @PutMapping("/{id}/unlock")
+    public ResponseEntity<ApiResponse<Void>> unlockAccount(@PathVariable int id, HttpServletRequest request) {
+        accountService.unlockAccount(id);
+        return ResponseEntity.ok(new ApiResponse<>(true,"Account unlocked successfully", null, null, request.getRequestURI()));
     }
 }

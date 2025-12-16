@@ -1,6 +1,6 @@
 package com.e_commerce.dto;
 
-import lombok.*;
+import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;

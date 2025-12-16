@@ -2,7 +2,9 @@ package com.e_commerce.service.product.impl;
 
 import com.e_commerce.dto.PageDTO;
 import com.e_commerce.dto.product.productDTO.*;
+import com.e_commerce.entity.Restaurant;
 import com.e_commerce.entity.product.Product;
+import com.e_commerce.enums.AvailabilityStatus;
 import com.e_commerce.exceptions.CustomException;
 import com.e_commerce.exceptions.ErrorResponse;
 import com.e_commerce.mapper.product.ProductMapper;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,13 +52,15 @@ public class ProductServiceImpl implements ProductService {
         Product product = productMapper.covertCreateDTOToEntity(productCreateDTO);
         product.setId(IdGenerator.getGenerationId());
         product.setCategory(categoryService.getCategoryEntityById(productCreateDTO.getCategoryId()));
+        product.setStatus(AvailabilityStatus.ACTIVE);
+        product.setQuantity(100);
 
         if (productCreateDTO.getImgMain() != null && !productCreateDTO.getImgMain().isEmpty()) {
             Map<String, Object> imageUrl = cloudinaryService.uploadFile(productCreateDTO.getImgMain(), "product");
             log.info("Image upload result: {}", imageUrl);
             product.setImgMain((String) imageUrl.get("url"));
         } else {
-            throw new CustomException(ErrorResponse.PRODUCT_IMAGE_INVALID);
+            product.setImgMain(null);
         }
         return productMapper.covertEntityToDTO(productRepository.save(product));
     }
@@ -92,7 +97,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageDTO<ProductDTO> getAllProductsAdmin(int page, int size, ProductFilter productFilter) {
         Specification<Product> specification = ProductSpecification.filterProduct(productFilter);
-        Pageable pageable = PageRequest.of(page-1, size);
+
+        Sort sort = Sort.unsorted();
+        if (productFilter.getSortBy() != null && productFilter.getSortOrder() != null) {
+            Sort.Direction direction = "desc".equalsIgnoreCase(productFilter.getSortOrder()) ?
+                    Sort.Direction.DESC : Sort.Direction.ASC;
+            sort = Sort.by(direction, productFilter.getSortBy());
+        }
+
+        Pageable pageable = PageRequest.of(page-1, size,sort);
 
         return productMapper.convertProductPageToDTO(productRepository.findAll(specification, pageable));
     }
@@ -113,5 +126,11 @@ public class ProductServiceImpl implements ProductService {
         if (result == 0) {
             throw new CustomException(ErrorResponse.PRODUCT_INSUFFICIENT_STOCK);
         }
+    }
+
+    @Override
+    public PageDTO<ProductDTO> getProductsByRestaurant(int page, int size ,Integer restaurantId) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return productMapper.convertProductPageToDTO(productRepository.findByRestaurantId(restaurantId, pageable));
     }
 }

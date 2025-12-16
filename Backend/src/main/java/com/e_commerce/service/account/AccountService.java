@@ -4,6 +4,7 @@ import com.e_commerce.dto.auth.accountDTO.*;
 import com.e_commerce.entity.account.Account;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -35,4 +36,10 @@ public interface AccountService extends UserDetailsService {
     OtpVerificationResponseDTO verifyOtp(OtpVerificationRequestDTO request);
 
     void resetPassword(ResetPasswordDTO request);
+
+    void resendVerificationEmail(String email);
+
+    void lockAccount(int accountId);
+
+    void unlockAccount(int accountId);
 }

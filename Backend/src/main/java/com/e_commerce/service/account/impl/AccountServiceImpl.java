@@ -15,12 +15,11 @@ import com.e_commerce.orther.IdGenerator;
 import com.e_commerce.repository.account.AccountRepository;
 import com.e_commerce.service.account.AccountService;
 import com.e_commerce.service.account.TokenService;
+import com.e_commerce.service.account.token.TokenBlacklistService;
 import com.e_commerce.util.JwtUtil;
-
 import com.e_commerce.util.LoginAttemptService;
 import com.e_commerce.util.OtpUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
@@ -34,7 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.e_commerce.service.account.token.TokenBlacklistService;
 
 
 @Service
@@ -64,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
         this.tokenBlacklistService = tokenBlacklistService;
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = CustomException.class)
     @Override
     public AuthenticationDTO signIn(LoginForm loginForm) {
         Account account = accountRepository.findByEmail(loginForm.getEmail())
@@ -79,24 +77,43 @@ public class AccountServiceImpl implements AccountService {
             throw new CustomException(ErrorResponse.ACCOUNT_LOCKED);
         }
 
-        if (loginAttemptService.isBlocked(loginForm.getEmail())) {
-            throw new CustomException(ErrorResponse.ACCOUNT_MAX_LOGIN_ATTEMPTS_EXCEEDED);
-        }
 
         if (!passwordEncoder.matches(loginForm.getPassword(), account.getPassword())) {
-            loginAttemptService.loginFailed(loginForm.getEmail());
-            int remaining = loginAttemptService.getRemainingAttempts(loginForm.getEmail());
-
-            if (remaining <= 0) {
-                account.setActive(false);
-                accountRepository.save(account);
-                throw new CustomException(ErrorResponse.ACCOUNT_LOCKED);
-            }
-            String message = "Invalid credentials. You have " + remaining + " attempt(s) left.";
-            throw new CustomException(List.of(ErrorResponse.ACCOUNT_PASSWORD_MISMATCH),message);
+//            loginAttemptService.loginFailed(loginForm.getEmail());
+//            int remaining = loginAttemptService.getRemainingAttempts(loginForm.getEmail());
+//
+//
+//            if (remaining <= 0) {
+//                loginAttemptService.lockTemporarily(loginForm.getEmail());
+//
+//                long fraudCount = loginAttemptService.incrementFraud(loginForm.getEmail());
+//
+//                if (fraudCount >= 3) {
+//                    account.setActive(false);
+//                    accountRepository.save(account);
+//
+//                    loginAttemptService.clearLoginState(loginForm.getEmail());
+//
+//                    throw new CustomException(List.of(ErrorResponse.FRAUDULENT_LOGIN_DETECTED),
+//                            "Phát hiện nhiều lần đăng nhập thất bại. Tài khoản đã bị khóa vĩnh viễn. Vui lòng liên hệ hỗ trợ.");
+//                }
+//
+//                long lockTimeRemaining = loginAttemptService.getLockTimeRemaining(loginForm.getEmail());
+//                throw new CustomException(List.of(ErrorResponse.ACCOUNT_MAX_LOGIN_ATTEMPTS_EXCEEDED),
+//                        "Tài khoản bị khóa trong " + lockTimeRemaining + " phút.");
+//            }
+//            String message = "Invalid credentials. You have " + remaining + " attempt(s) left.";
+            throw new CustomException(ErrorResponse.ACCOUNT_PASSWORD_MISMATCH);
         }
 
-        loginAttemptService.loginSucceeded(loginForm.getEmail());
+//        if (loginAttemptService.isBlocked(loginForm.getEmail())) {
+//            long lockTimeRemaining = loginAttemptService.getLockTimeRemaining(loginForm.getEmail());
+//            String message = "Your account is locked due to multiple failed login attempts. Please try again in " + lockTimeRemaining + " minute(s).";
+//            throw new CustomException(List.of(ErrorResponse.ACCOUNT_MAX_LOGIN_ATTEMPTS_EXCEEDED), message);
+//        }
+
+
+//        loginAttemptService.loginSucceeded(loginForm.getEmail());
         String jwtToken = jwtUtil.generateToken(account);
         String refreshToken = jwtUtil.generateRefreshToken(account);
 
@@ -106,6 +123,8 @@ public class AccountServiceImpl implements AccountService {
         return AuthenticationDTO.builder()
                 .accessToken(jwtToken)
                 .accountName(account.getAccountName())
+                .role(account.getRole().name())
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -119,6 +138,12 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountMapper.convertCreateDTOToEntity(registrationForm);
         account.setId(IdGenerator.getGenerationId());
         account.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
+
+        if(registrationForm.getRole() == AccountRole.STAFF || registrationForm.getRole() == AccountRole.ADMIN) {
+            account.setStatus(true);
+        }else {
+            account.setStatus(true);
+        }
 
         Account savedAccount = accountRepository.save(account);
 
@@ -164,14 +189,20 @@ public class AccountServiceImpl implements AccountService {
             Account account = accountRepository.findByEmail(email)
                     .orElseThrow(() -> new CustomException(ErrorResponse.ACCOUNT_NOT_FOUND));
 
+            Token storedRefreshToken = tokenService.getTokenByAccountIdAndTokenType(account.getId(), TokenType.REFRESH_TOKEN.name());
+
+            if (storedRefreshToken == null || !storedRefreshToken.getToken().equals(refreshToken)) {
+                throw new CustomException(ErrorResponse.INVALID_REFRESH_TOKEN);
+            }
+
+            tokenService.deleteToken(refreshToken, TokenType.REFRESH_TOKEN.name());
+
             String newAccessToken = jwtUtil.generateToken((UserDetails) account);
             String newRefreshToken = jwtUtil.generateRefreshToken((UserDetails) account);
-
-            // logic xóa refresh-token cũ
+            tokenService.generateRefreshToken(account, newRefreshToken);
 
             return AuthenticationDTO.builder()
                     .accessToken(newAccessToken)
-                    .refreshToken(newRefreshToken)
                     .role(account.getRole().name())
                     .build();
         } catch (Exception e) {
@@ -277,6 +308,38 @@ public class AccountServiceImpl implements AccountService {
         otpUtil.clearOtp(account.getEmail());
     }
 
+    @Override
+    public void resendVerificationEmail(String email) {
+        Account account = getAccountByEmail(email);
+
+        if (account.isEnabled()) {
+            throw new CustomException(ErrorResponse.ACCOUNT_ALREADY_VERIFIED);
+        }
+
+        tokenService.invalidateOldTokens(account);
+
+        tokenService.generateToken(account);
+
+        eventPublisher.publishEvent(new RegistrationCompleteEvent(this, email));
+    }
+
+    @Transactional
+    @Override
+    public void lockAccount(int accountId) {
+        Account account = getAccountEntityById(accountId);
+
+        account.setActive(false);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void unlockAccount(int accountId) {
+        Account account = getAccountEntityById(accountId);
+
+        account.setActive(true);
+        accountRepository.save(account);
+    }
+
     private AccountDTO convertToDTO(Account account) {
         UserInformation userInfo = account.getUserInformation().isEmpty() ? null : account.getUserInformation().get(0);
         String fullName = userInfo != null ? userInfo.getFullName() : null;
@@ -285,11 +348,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> getCustomerInfoList() {
-        List<Account> customers = accountRepository.findByRole(AccountRole.USER);
-        if (customers.isEmpty()) {
+        List<AccountRole> roles = List.of(AccountRole.USER, AccountRole.STAFF);
+        List<Account> accounts = accountRepository.findByRoles(roles);
+        if (accounts.isEmpty()) {
             throw new CustomException(ErrorResponse.ACCOUNT_NOT_FOUND);
         }
-        return customers.stream().map(this::convertToDTO).toList();
+        return accounts.stream().map(this::convertToDTO).toList();
     }
 
 @Override
@@ -301,11 +365,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<AccountDTO> getAccountAllByRoleUser() {
-        List<Account> accounts = accountRepository.findByRole(AccountRole.USER);
+        List<AccountRole> roles = List.of(AccountRole.USER, AccountRole.ADMIN);
+        List<Account> accounts = accountRepository.findByRoles(roles);
         if (accounts.isEmpty()) {
             throw new CustomException(ErrorResponse.ACCOUNT_NOT_FOUND);
         }
         return accountMapper.convertListEntityToListDTO(accounts);
     }
-    
+
 }

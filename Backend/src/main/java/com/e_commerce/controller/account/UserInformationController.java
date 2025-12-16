@@ -4,7 +4,6 @@ import com.e_commerce.dto.ApiResponse;
 import com.e_commerce.dto.auth.userInfoDTO.UserInfoCreateDTO;
 import com.e_commerce.dto.auth.userInfoDTO.UserInfoDTO;
 import com.e_commerce.dto.auth.userInfoDTO.UserInfoUpdateDTO;
-import com.e_commerce.entity.account.UserInformation;
 import com.e_commerce.service.account.UserInformationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

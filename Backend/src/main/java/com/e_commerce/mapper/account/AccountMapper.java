@@ -3,7 +3,6 @@ package com.e_commerce.mapper.account;
 import com.e_commerce.dto.auth.accountDTO.AccountDTO;
 import com.e_commerce.dto.auth.accountDTO.RegistrationForm;
 import com.e_commerce.entity.account.Account;
-import com.e_commerce.enums.AccountRole;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +30,8 @@ public class AccountMapper {
         return Account.builder()
                 .email(registrationForm.getEmail())
                 .accountName(registrationForm.getAccountName())
-                .role((AccountRole.valueOf(registrationForm.getRole())))
-                .status(false)
+                .role(registrationForm.getRole())
+                .status(true)
                 .active(true)
                 .build();
     }

@@ -1,7 +1,8 @@
 package com.e_commerce.dto.auth.userInfoDTO;
 
 import com.e_commerce.enums.Gender;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

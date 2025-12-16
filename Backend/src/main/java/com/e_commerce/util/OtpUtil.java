@@ -4,11 +4,8 @@ import com.e_commerce.exceptions.CustomException;
 import com.e_commerce.exceptions.ErrorResponse;
 import com.e_commerce.service.account.RedisService;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -24,8 +21,10 @@ public class OtpUtil {
     private final int maxOtpAttempts;
     private final int otpLength;
     private final int otpAttemptExpiryMinutes;
+    private final RateLimitService rateLimitService;
 
-    public OtpUtil(RedisService redisService, @Value("${spring.otp.expiration-minutes}") int otpExpirationMinutes,@Value("${spring.otp.max-attempts}") int maxOtpAttempts,@Value("${spring.otp.length}") int otpLength,@Value("${spring.otp.attempt-expiry-minutes}") int otpAttemptExpiryMinutes) {
+    public OtpUtil(RedisService redisService, @Value("${spring.otp.expiration-minutes}") int otpExpirationMinutes,@Value("${spring.otp.max-attempts}") int maxOtpAttempts,@Value("${spring.otp.length}") int otpLength,@Value("${spring.otp.attempt-expiry-minutes}") int otpAttemptExpiryMinutes, RateLimitService rateLimitService) {
+        this.rateLimitService = rateLimitService;
         this.redisService = redisService;
         this.otpExpirationMinutes = otpExpirationMinutes;
         this.maxOtpAttempts = maxOtpAttempts;
@@ -34,6 +33,7 @@ public class OtpUtil {
     }
 
     public String generateOtp(String email) {
+
         String otp = generateRandomOtp();
         String otpKey = RedisKeyUtil.otpKey(email);
         String otpAttemptKey = RedisKeyUtil.otpAttemptKey(email);

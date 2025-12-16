@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,6 +37,7 @@ public class EmailServiceImpl implements EmailService {
         this.fromEmail = fromEmail;
     }
 
+    @Async("otpTaskExecutor")
     @Override
     public void sendEmailOTP(String email, String otp, int otpExpirationMinutes) {
         String subject = "Password Reset OTP - SGU Enterprise";
@@ -99,7 +101,7 @@ public class EmailServiceImpl implements EmailService {
                       <p>Dear <strong>%s</strong>,</p>
                       <p>We have successfully received your payment for order <strong>#%s</strong>.</p>
                       <p><strong>Transaction ID:</strong> %s</p>
-                      <p><strong>Amount Paid:</strong> $%s</p>
+                      <p><strong>Amount Paid:</strong> %s VND</p>
                       <p>Thank you for shopping with us!</p>
                     </div>
                     <div style="background: #f8f9fa; text-align: center; padding: 15px; font-size: 13px; color: #7f8c8d;">
@@ -134,6 +136,7 @@ public class EmailServiceImpl implements EmailService {
                 """.formatted(customerName, orderId, transactionId);
     }
 
+    @Async
     @Override
     public void sendPaymentSuccessEmail(String customerEmail, String customerName, String orderId, String transactionId, BigDecimal amount) {
         String subject = "Payment Successful - Order #" + orderId;
@@ -141,6 +144,7 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(customerEmail, subject, body);
     }
 
+    @Async
     @Override
     public void sendPaymentFailedEmail(String customerEmail, String customerName, String orderId, String transactionId) {
         String subject = "Payment Failed - Order #" + orderId;
@@ -165,7 +169,7 @@ public class EmailServiceImpl implements EmailService {
     <div style="padding: 20px; color: #2c3e50;">
       <p>Dear <strong>%s</strong>,</p>
       <p>Thank you for your order! Your order <strong>#%s</strong> has been placed successfully.</p>
-      <p><strong>Total Amount:</strong> $%s</p>
+      <p><strong>Total Amount:</strong> %s VND</p>
       <p>We will notify you once your order is shipped.</p>
       <p style="margin-top: 20px; font-size: 14px; color: #7f8c8d;">If you have any questions, please contact our support team.</p>
     </div>
@@ -245,6 +249,7 @@ public class EmailServiceImpl implements EmailService {
                 """.formatted(customerName, orderId, statusDescription);
     }
 
+    @Async
     @Override
     public void sendOrderStatusEmail(OrderStatus status, String customerEmail, String customerName, String orderId, BigDecimal amount) {
         String subject = "Order Update - #" + orderId;
@@ -253,7 +258,7 @@ public class EmailServiceImpl implements EmailService {
         switch (status) {
             case CONFIRMED -> body = getOrderConfirmationEmailContent(customerName, orderId, formatAmount(amount));
             case IN_PROGRESS -> body = getOrderInProgressEmailContent(customerName, orderId);
-            case COMPLETED -> body = getOrderCompletedEmailContent(customerName, orderId);
+            case DELIVERED -> body = getOrderCompletedEmailContent(customerName, orderId);
             case CANCELLED -> body = getOrderCanceledEmailContent(customerName, orderId);
             case REJECTED -> body = getOrderRejectedEmailContent(customerName, orderId);
             default -> body = getGenericOrderStatusEmail(customerName, orderId, status.name());
@@ -262,6 +267,7 @@ public class EmailServiceImpl implements EmailService {
         sendEmail(customerEmail, subject, body);
     }
 
+    @Async
     @Override
     public void sendRegistrationUserConfirm(String email) {
         Account account = accountService.getAccountByEmail(email);

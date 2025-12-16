@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class Account extends Timestamped implements UserDetails {
     private String password;
 
     @Column(name = "status", nullable = false)
-    private Boolean status = false;
+    private Boolean status = true;
 
     @Column(name = "active", nullable = false)
     private Boolean active = true;
@@ -77,7 +76,7 @@ public class Account extends Timestamped implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonLocked() {
+        public boolean isAccountNonLocked() {
         return active;
     }
 
