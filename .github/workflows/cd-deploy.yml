@@ -1,11 +1,12 @@
 name: CD - Deploy (Local Windows Runner)
 
 on:
+  workflow_dispatch:  # thêm dòng này để test thủ công
   workflow_run:
     workflows: ["CI + CD (Delivery) - Spring Boot"]
     types: [completed]
 
-jobs:
+jobs: 
   deploy:
     runs-on: self-hosted
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
