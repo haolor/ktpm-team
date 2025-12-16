@@ -118,3 +118,16 @@
 [2025-12-16 13:26:07Z INFO RunnerServer] EstablishVssConnection
 [2025-12-16 13:26:07Z INFO RunnerServer] Establish connection with 60 seconds timeout.
 [2025-12-16 13:26:07Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2025-12-16 13:26:08Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-12-16 13:26:08Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-12-16 13:26:08Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-12-16 13:26:08Z INFO BrokerMessageListener] VssConnection created
+[2025-12-16 13:26:08Z INFO Terminal] WRITE LINE: 
+[2025-12-16 13:26:08Z INFO Terminal] WRITE LINE: 
+[2025-12-16 13:26:08Z INFO RSAEncryptedFileKeyManager] Loading RSA key parameters from file C:\Users\Admin\ktpm-team\Backend\actions-runner\.credentials_rsaparams
+[2025-12-16 13:26:08Z INFO RSAEncryptedFileKeyManager] Loading RSA key parameters from file C:\Users\Admin\ktpm-team\Backend\actions-runner\.credentials_rsaparams
+[2025-12-16 13:26:10Z INFO GitHubActionsService] AAD Correlation ID for this token request: Unknown
+[2025-12-16 13:26:11Z INFO BrokerMessageListener] Session created.
+[2025-12-16 13:26:11Z INFO Terminal] WRITE LINE: Current runner version: '2.329.0'
+[2025-12-16 13:26:11Z INFO Terminal] WRITE LINE: 2025-12-16 13:26:11Z: Listening for Jobs
+[2025-12-16 13:26:11Z INFO JobDispatcher] Set runner/worker IPC timeout to 30 seconds.
