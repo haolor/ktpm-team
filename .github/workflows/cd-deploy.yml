@@ -10,13 +10,12 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull & Run Docker Image
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy with docker-compose
         run: |
-          docker pull haolongd/springboot-app:latest
-          if (docker ps -q -f name=^app$) { docker stop app }
-          if (docker ps -aq -f name=^app$) { docker rm app }
-          docker run -d --restart unless-stopped `
-            --env-file C:\opt\app\.env `
-            -p 8080:8080 `
-            --name app haolongd/springboot-app:latest
+          cd Backend
+          docker compose pull app
+          docker compose up -d
           docker image prune -f
