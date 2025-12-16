@@ -8,6 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
       - name: Pull & Run Docker Image
@@ -15,4 +16,8 @@ jobs:
           docker pull haolongd/springboot-app:latest
           docker stop app || exit 0
           docker rm app || exit 0
-          docker run -d -p 8080:8080 --name app haolongd/springboot-app:latest
+          docker run -d --restart unless-stopped `
+            --env-file C:\opt\app\.env `
+            -p 8080:8080 `
+            --name app haolongd/springboot-app:latest
+          docker image prune -f
