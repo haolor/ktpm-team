@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Import(TestConfig.class)
 class ECommerceApplicationTests {
 
+
     @Test
     void contextLoads() {
     }
