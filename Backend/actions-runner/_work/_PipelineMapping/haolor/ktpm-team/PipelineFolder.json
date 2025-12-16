@@ -1,0 +1,12 @@
+﻿{
+  "repositoryName": "haolor/ktpm-team",
+  "pipelineDirectory": "ktpm-team",
+  "workspaceDirectory": "ktpm-team\\ktpm-team",
+  "repositories": {
+    "haolor/ktpm-team": {
+      "repositoryPath": "ktpm-team\\ktpm-team",
+      "lastRunOn": "12/16/2025 20:59:44 +07:00"
+    }
+  },
+  "lastRunOn": "12/16/2025 20:59:44 +07:00"
+}
