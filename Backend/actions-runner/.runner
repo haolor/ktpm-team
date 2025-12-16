@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 2,
+  "agentName": "DESKTOP-4EP6G8K",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus6.actions.githubusercontent.com/u4fiL54833awRnKxXeDDc9itEIe0G5mrB3XcCAiLTe8r0kZOXN/",
+  "gitHubUrl": "https://github.com/haolor/ktpm-team",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}
