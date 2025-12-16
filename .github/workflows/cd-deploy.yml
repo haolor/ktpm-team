@@ -5,11 +5,12 @@ on:
   workflow_run:
     workflows: ["CI + CD (Delivery) - Spring Boot"]
     types: [completed]
+    branches: [main]
 
 jobs: 
   deploy:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event != 'pull_request' }}
 
     steps:
       - name: Pull & Run Docker Image
