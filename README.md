@@ -41,17 +41,25 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
   - [📚 Yêu cầu](#-yêu-cầu)
   - [⚙️ Cài đặt \& Chạy dự án](#️-cài-đặt--chạy-dự-án)
   - [📡 API Documentation](#-api-documentation)
-    - [Endpoints](#endpoints)
-      - [Auth](#auth)
+    - [Swagger UI](#swagger-ui)
+    - [Các endpoint chính](#các-endpoint-chính)
+      - [🔐 Authentication](#-authentication)
       - [Product](#product)
       - [Cart](#cart)
       - [Order](#order)
       - [Payment](#payment)
   - [📝Response Schema](#response-schema)
   - [🛡️Bảo mật](#️bảo-mật)
+    - [Authentication \& Authorization](#authentication--authorization)
+    - [Security Features](#security-features)
   - [⚡ Redis \& Security Strategy](#-redis--security-strategy)
   - [🧪Testing](#testing)
   - [🐳 Docker \& Triển khai (Deployment)](#-docker--triển-khai-deployment)
+  - [🌐 Deployment Production \& Monitoring](#-deployment-production--monitoring)
+  - [📊 Monitoring](#-monitoring)
+    - [Health Checks](#health-checks)
+    - [Metrics](#metrics)
+    - [Logging](#logging)
   - [📄 License](#-license)
 
 ---
@@ -370,8 +378,18 @@ Tài liệu mô tả các RESTful API của hệ thống Backend.
 * **Format**: JSON
 * **Pagination**: Sử dụng `page` và `size` làm query parameters
 
-### Endpoints
-#### Auth
+### Swagger UI
+Sau khi khởi động ứng dụng, truy cập:
+```
+http://localhost:8080/api/v1/swagger-ui/index.html
+```
+<div align="center">
+  <img src="docs/swagger.png" width="800"/>
+</div>
+
+
+### Các endpoint chính
+#### 🔐 Authentication
 - POST /auth/register — đăng ký người dùng mới
   - body: {username, password, email, roles}
   - Response: 201 {id, username, email, roles}
@@ -546,10 +564,19 @@ Tất cả API responses tuân theo cấu trúc chung sau:
 
 ## 🛡️Bảo mật
 
-- Spring Security + JWT
-- Role-based access control: ROLE_USER, ROLE_ADMIN
-- Lưu JWT có thể bằng HTTP-only cookie hoặc lưu ở client và trả qua header Authorization
-- Các API nhạy cảm chỉ cho phép role tương ứng
+### Authentication & Authorization
+- **JWT Tokens**: Stateless authentication
+- **BCrypt**: Password hashing
+- **Role-based Access Control**: Fine-grained permissions
+- **Multi-factor Authentication**: Optional 2FA
+
+### Security Features
+- **Input Validation**: Comprehensive validation
+- **SQL Injection Prevention**: Parameterized queries
+- **XSS Protection**: Output encoding
+- **CSRF Protection**: CSRF tokens
+- **Rate Limiting**: API throttling
+- **Brute Force Protection**: Account lockout
 
 ---
 
@@ -606,8 +633,43 @@ cd ten-du-an
 docker-compose up -d --build
 
 ```
----
 
+---
+## 🌐 Deployment Production & Monitoring
+Hệ thống được deploy trên **Render** :
+<div align="center">
+  <img src="docs/render.png" width="800"/>
+</div>
+
+## 📊 Monitoring
+
+### Health Checks
+```bash
+# Application health
+curl http://localhost:8080/actuator/health
+
+# Detailed health
+curl http://localhost:8080/actuator/health/details
+```
+---
+### Metrics
+- **Spring Boot Actuator**: Built-in metrics
+- **Micrometer**: Metrics facade
+- **Prometheus**: Metrics collection
+- **Grafana**: Visualization
+
+### Logging
+- **SLF4J + Logback**: Structured logging
+- **Log levels**: Configurable per package
+- **Log rotation**: Daily rotation with retention
+- **Centralized logging**: ELK Stack integration
+---
 ## 📄 License
 - Dự án được phát triển cho mục đích học tập.
     
+
+---
+<div align="center">
+  <p><strong>⭐ Nếu project hữu ích, hãy cho chúng tôi một star nhé! ⭐</strong></p>
+  <p>Được phát triển với ❤️ bởi <strong>KTPM Team</strong></p>
+</div>
