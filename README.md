@@ -483,7 +483,7 @@ Tài liệu mô tả các RESTful API của hệ thống Backend.
   - Response: 200 {message, orderStatus}
   
 
-## Response Schema
+## 📝Response Schema
 
 Tất cả API responses tuân theo cấu trúc chung sau:
 
@@ -534,7 +534,7 @@ Tất cả API responses tuân theo cấu trúc chung sau:
 
 ---
 
-## Bảo mật
+## 🛡️Bảo mật
 
 - Spring Security + JWT
 - Role-based access control: ROLE_USER, ROLE_ADMIN
@@ -556,7 +556,7 @@ Trong dự án này, Redis **không** được sử dụng để cache dữ li�
 
 ---
 
-## Testing
+## 🧪Testing
 
 - Unit tests: JUnit 5 + Mockito
 - Integration tests: Testcontainers (Postgres, Redis)
