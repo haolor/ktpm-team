@@ -19,13 +19,20 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 ---
 
 ## Mục lục
+
 - [🛒 E-Commerce System](#-e-commerce-system)
-  - [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
+- [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
   - [Mục lục](#mục-lục)
   - [✨ Tính Năng Chính (Key Features)](#-tính-năng-chính-key-features)
   - [🏗️ Kiến trúc tổng thể](#️-kiến-trúc-tổng-thể)
-    - [Conceptual Model](#️-Conceptual-model)
-    - [C4 Model](#️-C4-model)
+    - [Conceptual Model](#conceptual-model)
+      - [Các Phân Hệ Chức Năng Chính](#các-phân-hệ-chức-năng-chính)
+      - [Các Mối Quan Hệ](#các-mối-quan-hệ)
+    - [C4 Model](#c4-model)
+      - [1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)](#1-tổng-quan-kiến-trúc-hệ-thống-c1---system-context)
+      - [2. Kiến trúc Container (C2 - Container View)](#2-kiến-trúc-container-c2---container-view)
+      - [3. Kiến trúc Component (C3 - Backend Structure)](#3-kiến-trúc-component-c3---backend-structure)
+      - [4. Chi tiết Mã nguồn (C4 - Code Level)](#4-chi-tiết-mã-nguồn-c4---code-level)
   - [🛠 Công nghệ sử dụng](#-công-nghệ-sử-dụng)
   - [📂 Cấu trúc thư mục (tóm tắt)](#-cấu-trúc-thư-mục-tóm-tắt)
   - [📚 Yêu cầu](#-yêu-cầu)
@@ -38,7 +45,7 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
       - [Order](#order)
       - [Payment](#payment)
   - [📝Response Schema](#response-schema)
-  - [🛡️Bảo mật](#bảo-mật)
+  - [🛡️Bảo mật](#️bảo-mật)
   - [⚡ Redis \& Security Strategy](#-redis--security-strategy)
   - [🧪Testing](#testing)
   - [🐳 Docker \& Triển khai (Deployment)](#-docker--triển-khai-deployment)
@@ -83,7 +90,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 </div>
 
 <div align="center">
-  <img src="D:\Project\ktpm-team\docs\image.png" width="700"/>
+  <img src="docs/image.png" width="700"/>
 </div>
 ### Conceptual Model
 
