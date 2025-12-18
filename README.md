@@ -24,6 +24,8 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
   - [Mục lục](#mục-lục)
   - [✨ Tính Năng Chính (Key Features)](#-tính-năng-chính-key-features)
   - [🏗️ Kiến trúc tổng thể](#️-kiến-trúc-tổng-thể)
+    - [Conceptual Model](#️-Conceptual-model)
+    - [C4 Model](#️-C4-model)
   - [🛠 Công nghệ sử dụng](#-công-nghệ-sử-dụng)
   - [📂 Cấu trúc thư mục (tóm tắt)](#-cấu-trúc-thư-mục-tóm-tắt)
   - [📚 Yêu cầu](#-yêu-cầu)
@@ -83,7 +85,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 <div align="center">
   <img src="D:\Project\ktpm-team\docs\image.png" width="700"/>
 </div>
-### Mô hình Quan niệm (Conceptual Model)
+#### Mô hình Quan niệm (Conceptual Model)
 
 <div align="center">
   <img src="docs/conceptual_model.png" width="800"/>
@@ -131,7 +133,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 * **"is a"**: Dòng này biểu thị sự kế thừa. Ví dụ, trong hộp "Quy Trình Thanh Toán", thực thể "Buyer" chính là một "User" từ hộp Kiểm Soát Truy Cập.
 * **Associations (Liên kết)**: Các đường nối giữa các thực thể (như từ Product đến Cart) thể hiện mối quan hệ dữ liệu, thường đi kèm với bản số (ví dụ: `1..*` nghĩa là quan hệ "một - nhiều").
 
-### C4 Model - Chi tiết kiến trúc kỹ thuật
+#### C4 Model - Chi tiết kiến trúc kỹ thuật
 
 #### 1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)
 Đây là bức tranh toàn cảnh về cách hệ thống tương tác với thế giới bên ngoài.
