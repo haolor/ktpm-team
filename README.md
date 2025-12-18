@@ -37,10 +37,10 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
       - [Cart](#cart)
       - [Order](#order)
       - [Payment](#payment)
-  - [Response Schema](#response-schema)
-  - [Bảo mật](#bảo-mật)
+  - [📝Response Schema](#response-schema)
+  - [🛡️Bảo mật](#bảo-mật)
   - [⚡ Redis \& Security Strategy](#-redis--security-strategy)
-  - [Testing](#testing)
+  - [🧪Testing](#testing)
   - [🐳 Docker \& Triển khai (Deployment)](#-docker--triển-khai-deployment)
   - [📄 License](#-license)
 
