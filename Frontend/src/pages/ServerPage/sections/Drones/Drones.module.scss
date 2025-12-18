@@ -1,0 +1,145 @@
+.section {
+  padding: 20px;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    i {
+      color: #2563eb;
+    }
+  }
+
+  .subtitle {
+    color: #6b7280;
+    margin-top: 5px;
+    font-size: 14px;
+  }
+
+  .btnAdd {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+
+    &:hover {
+      background-color: #1d4ed8;
+    }
+  }
+}
+
+/* DRONE GRID */
+.droneGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.droneCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #2563eb;
+  }
+
+  .cardIcon img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .cardInfo {
+    flex: 1;
+    h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .model {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 2px 0 5px;
+    }
+    .battery {
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+
+  .cardStatus {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+/* BADGES */
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+
+  &.ready {
+    background: #d1fae5;
+    color: #047857;
+  }
+  &.busy {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+  &.charging {
+    background: #ffedd5;
+    color: #c2410c;
+  }
+  &.maintenance {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #9ca3af;
+  font-size: 16px;
+}
