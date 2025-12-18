@@ -154,7 +154,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 Phần này mô tả các "thùng chứa" công nghệ và giao thức giao tiếp.
 
 <div align="center">
-  <img src="docs/c2.drawio.png" width="800"/>
+  <img src="docs/c2.png" width="800"/>
 </div>
 
 * **Web Frontend (React):**
