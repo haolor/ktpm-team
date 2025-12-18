@@ -137,7 +137,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 Đây là bức tranh toàn cảnh về cách hệ thống tương tác với thế giới bên ngoài.
 
 <div align="center">
-  <img src="c1.png" width="800"/>
+  <img src="docs/c1.png" width="800"/>
 </div>
 
 * **Người dùng (Actors):**
@@ -154,7 +154,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 Phần này mô tả các "thùng chứa" công nghệ và giao thức giao tiếp.
 
 <div align="center">
-  <img src="c2.drawio.png" width="800"/>
+  <img src="docs/c2.drawio.png" width="800"/>
 </div>
 
 * **Web Frontend (React):**
@@ -172,12 +172,12 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **C3 - High Level Component**
 <div align="center">
-  <img src="c3high.drawio.png" width="800"/>
+  <img src="docs/c3high.png" width="800"/>
 </div>
 
 **C3 - Module Level Component**
 <div align="center">
-  <img src="c3module.drawio.png" width="100%"/>
+  <img src="docs/c3module.png" width="100%"/>
 </div>
 
 * **Phân lớp (Layers):**
@@ -198,7 +198,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **A. Account/Auth Aggregate (Xác thực & Người dùng)**
 <div align="center">
-  <img src="c4-account.drawio.png" width="800"/>
+  <img src="docs/c4-account.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -211,7 +211,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **B. Product/Catalog Aggregate (Sản phẩm)**
 <div align="center">
-  <img src="c4-product.drawio.png" width="800"/>
+  <img src="docs/c4-product.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -222,7 +222,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **C. Orders/Cart Aggregate (Đơn hàng)**
 <div align="center">
-  <img src="c4-order_cart.drawio.png" width="800"/>
+  <img src="docs/c4-order_cart.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -234,7 +234,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **D. Payment Aggregate (Thanh toán)**
 <div align="center">
-  <img src="c4-payment.drawio.png" width="800"/>
+  <img src="docs/c4-payment.png" width="800"/>
 </div>
 
 * **Entity chính:**
