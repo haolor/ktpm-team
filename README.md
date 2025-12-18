@@ -83,8 +83,167 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 <div align="center">
   <img src="D:\Project\ktpm-team\docs\image.png" width="700"/>
 </div>
+### Mô hình Quan niệm (Conceptual Model)
 
+<div align="center">
+  <img src="C:\Users\Admin\ktpm-team\docs\conceptual_model.png" width="800"/>
+</div>
 
+#### Các Phân Hệ Chức Năng Chính
+
+**Kiểm Soát Truy Cập (Hộp Hồng - Trung Tâm)**
+* Đây là phần cốt lõi của hệ thống quản lý người dùng.
+* Nó định nghĩa một thực thể **User** (Người dùng) chung được liên kết với **Roles** (Vai trò) (1 người dùng có thể có nhiều vai trò).
+* Các tác nhân **Buyer** (Người mua) và **SysAdmin** (Quản trị viên hệ thống) trong các mô-đun khác đều kế thừa từ thực thể User này (được biểu thị bằng các đường liên kết "is a").
+
+**Danh Mục Thực Đơn (Hộp Xanh Dương)**
+* Tập trung vào việc hiển thị và quản lý sản phẩm.
+* **SysAdmin:** Có các quyền CRUD (Tạo, Đọc, Cập nhật, Xóa) và phân bổ kho hàng.
+* **Buyer:** Có thể Xem và Lọc sản phẩm.
+* **Product:** Được liên kết với thông tin **Inventory** (Kho hàng).
+
+**Giỏ Hàng (Hộp Vàng)**
+* Quản lý trải nghiệm mua sắm.
+* **Buyer:** Có thể thực hiện các Hành động trên Giỏ hàng.
+* **Cart:** Chứa các Sản phẩm (Bản số: 1 Giỏ hàng có thể có từ 0 đến nhiều Sản phẩm).
+* **SysAdmin:** Có thể xem tất cả các giỏ hàng và kích hoạt/vô hiệu hóa chúng.
+
+**Quy Trình Thanh Toán (Hộp Tím)**
+* Xử lý logic giao dịch.
+* **Buyer:** Khởi tạo thanh toán dựa trên Thông tin Giỏ hàng.
+* **Payment:** Được kết nối với một **PaymentMethod** (Phương thức thanh toán) cụ thể (ví dụ: Thẻ tín dụng) và **PaymentStatus** (Trạng thái thanh toán) (ví dụ: Đang chờ, Đã thanh toán) theo mối quan hệ 1-1.
+
+**Quản Lý Đơn Hàng (Hộp Cam)**
+* Xử lý vòng đời của đơn hàng sau khi đặt.
+* **Order:** Cập nhật Kho hàng và đóng vai trò dữ liệu tổng hợp cho doanh thu.
+* **Buyer:** Có thể Xem lịch sử và thực hiện các quy trình xóa bỏ/hủy.
+* **SysAdmin:** Có thể Xem tất cả đơn hàng.
+
+**Kho Hàng (Hộp Xanh Lá - Dưới Cùng Bên Trái)**
+* Dành riêng cho việc quản lý tồn kho.
+* **SysAdmin:** Thực hiện các thao tác CRUD trên Kho hàng.
+
+**Tổng Hợp Doanh Thu (Hộp Xanh Lá - Trên Cùng Bên Phải)**
+* Tập trung vào báo cáo kinh doanh.
+* **Store:** Có thể Xem Tổng hợp Doanh thu.
+
+#### Các Mối Quan Hệ
+* **"is a"**: Dòng này biểu thị sự kế thừa. Ví dụ, trong hộp "Quy Trình Thanh Toán", thực thể "Buyer" chính là một "User" từ hộp Kiểm Soát Truy Cập.
+* **Associations (Liên kết)**: Các đường nối giữa các thực thể (như từ Product đến Cart) thể hiện mối quan hệ dữ liệu, thường đi kèm với bản số (ví dụ: `1..*` nghĩa là quan hệ "một - nhiều").
+
+### C4 Model - Chi tiết kiến trúc kỹ thuật
+
+#### 1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)
+Đây là bức tranh toàn cảnh về cách hệ thống tương tác với thế giới bên ngoài.
+
+<div align="center">
+  <img src="c1.png" width="800"/>
+</div>
+
+* **Người dùng (Actors):**
+    * **Customer:** Người mua hàng, thực hiện xem sản phẩm, đặt hàng, thanh toán.
+    * **Admin:** Quản trị viên, quản lý sản phẩm, đơn hàng và báo cáo hệ thống.
+* **Hệ thống chính:** **E-commerce Web System** đóng vai trò trung tâm xử lý mọi nghiệp vụ.
+* **Hệ thống bên ngoài (External Systems):**
+    * **VNPay Gateway:** Cổng thanh toán để xử lý giao dịch tiền tệ.
+    * **Cloudinary:** Dịch vụ lưu trữ đám mây chuyên dụng cho hình ảnh sản phẩm (giúp giảm tải cho server chính).
+    * **SMTP Server:** Hệ thống gửi email tự động (xác thực tài khoản, OTP, thông báo đơn hàng).
+    * **Redis:** Hệ thống lưu trữ bộ nhớ đệm (Cache), dùng để lưu OTP, session, và giới hạn tần suất truy cập (Rate Limiting).
+
+#### 2. Kiến trúc Container (C2 - Container View)
+Phần này mô tả các "thùng chứa" công nghệ và giao thức giao tiếp.
+
+<div align="center">
+  <img src="c2.drawio.png" width="800"/>
+</div>
+
+* **Web Frontend (React):**
+    * Chịu trách nhiệm hiển thị giao diện (UI/UX).
+    * Giao tiếp với Backend qua giao thức HTTPS (RESTful API/JSON).
+* **Backend API (Spring Boot):**
+    * Là trái tim của hệ thống, chứa toàn bộ Business Logic.
+    * Xử lý xác thực (Auth), nghiệp vụ bán hàng, và tích hợp bên thứ 3.
+* **Cơ sở dữ liệu & Cache:**
+    * **PostgreSQL:** Database chính (Relational DB) lưu trữ Account, Product, Order... Giao tiếp qua JDBC.
+    * **Redis:** Lưu trữ dữ liệu tạm thời (OTP, Token blacklist, Rate limit data). Giao tiếp qua Redis Protocol.
+
+#### 3. Kiến trúc Component (C3 - Backend Structure)
+Backend được chia thành các lớp (Layered Architecture) và các Module nghiệp vụ riêng biệt để dễ bảo trì.
+
+**C3 - High Level Component**
+<div align="center">
+  <img src="c3high.drawio.png" width="800"/>
+</div>
+
+**C3 - Module Level Component**
+<div align="center">
+  <img src="c3module.drawio.png" width="100%"/>
+</div>
+
+* **Phân lớp (Layers):**
+    * **Security Layer (JwtAuthenticationFilter):** Chốt chặn đầu tiên, kiểm tra Token (JWT) của mọi request trước khi cho phép đi vào bên trong.
+    * **Controller Layer (REST):** Tiếp nhận request từ Frontend (AccountController, OrderController...).
+    * **Service Layer (Business Logic):** Xử lý nghiệp vụ chính (AccountService, OrderService...).
+    * **Repository Layer (JPA):** Tương tác trực tiếp với Database.
+    * **Utils:** Các tiện ích hỗ trợ như VNPayUtil (tạo URL thanh toán), OtpUtil (sinh mã OTP).
+* **Phân chia Module (Module-level):**
+    * Hệ thống chia thành 4 module lớn, giảm thiểu sự phụ thuộc chéo:
+        * **Account Module:** Quản lý đăng nhập, đăng ký, thông tin User.
+        * **Product Module:** Quản lý danh mục, sản phẩm, biến thể (Option).
+        * **Order Module:** Quản lý giỏ hàng và quy trình đặt hàng.
+        * **Payment Module:** Xử lý thanh toán và đối soát với VNPay.
+
+#### 4. Chi tiết Mã nguồn (C4 - Code Level)
+Đây là phần chi tiết nhất về cấu trúc Class/Entity cho từng phân hệ quan trọng.
+
+**A. Account/Auth Aggregate (Xác thực & Người dùng)**
+<div align="center">
+  <img src="c4-account.drawio.png" width="800"/>
+</div>
+
+* **Entity chính:**
+    * **Account:** Chứa email, password, role.
+    * **Token:** Quản lý Refresh Token và thiết bị đăng nhập.
+    * **UserInformation:** Thông tin cá nhân mở rộng (địa chỉ, SĐT).
+* **Luồng xử lý chính:**
+    * **Đăng nhập/Đăng ký:** `AccountController` gọi `AccountServiceImpl`. Service này sử dụng `AuthenticationManager` để xác thực, sau đó dùng `JwtUtil` để sinh Access Token + Refresh Token.
+    * **OTP & Security:** `OtpUtil` kết hợp với `RedisService` để lưu mã OTP có thời hạn (TTL). `TokenBlacklistService` chặn các token đã đăng xuất.
+
+**B. Product/Catalog Aggregate (Sản phẩm)**
+<div align="center">
+  <img src="c4-product.drawio.png" width="800"/>
+</div>
+
+* **Entity chính:**
+    * **Product:** Thông tin cơ bản (tên, giá, ảnh). Liên kết N-1 với Category.
+    * **OptionGroup & OptionValues:** Thiết kế linh hoạt cho các món ăn có nhiều tùy chọn (ví dụ: Mức đá, Mức đường, Topping thêm). Đây là điểm sáng giúp hệ thống bán được đồ ăn phức tạp.
+* **Logic nổi bật:**
+    * `ProductServiceImpl` tích hợp với `CloudinaryService` để upload ảnh lên mây, lấy về URL lưu vào DB.
+
+**C. Orders/Cart Aggregate (Đơn hàng)**
+<div align="center">
+  <img src="c4-order_cart.drawio.png" width="800"/>
+</div>
+
+* **Entity chính:**
+    * **Carts & CartItems:** Lưu giỏ hàng tạm thời của user.
+    * **Orders & OrderItems:** Đơn hàng chính thức sau khi chốt đơn.
+    * **OrderStatusHistory:** Lưu vết lịch sử thay đổi trạng thái đơn (Created -> Pending -> Paid -> Delivering...) giúp tracking dễ dàng.
+* **Logic:**
+    * `OrderServiceImpl` chịu trách nhiệm chuyển đổi dữ liệu từ Cart sang Order, trừ tồn kho và gọi `EmailService` để gửi mail xác nhận.
+
+**D. Payment Aggregate (Thanh toán)**
+<div align="center">
+  <img src="c4-payment.drawio.png" width="800"/>
+</div>
+
+* **Entity chính:**
+    * **Payment:** Lưu thông tin giao dịch, số tiền, mã giao dịch (TransactionId).
+    * **PaymentMethod:** Quản lý các phương thức (VNPay, COD, Momo...).
+* **Luồng thanh toán VNPay:**
+    1.  User chọn thanh toán -> `PaymentServiceImpl` dùng `VNPayUtil` & `VNPAYConfig` để tạo URL có chữ ký bảo mật (HMAC SHA512).
+    2.  User chuyển sang VNPay thanh toán.
+    3.  VNPay gọi ngược lại (Callback) -> `PaymentController` nhận tín hiệu, xác minh chữ ký, sau đó cập nhật trạng thái Orders sang "PAID" và gửi email thông báo.
 ---
 
 ## 🛠 Công nghệ sử dụng
