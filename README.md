@@ -8,6 +8,8 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 
 
 ---
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/) [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue.svg)](https://www.postgresql.org/) [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Test Coverage](https://img.shields.io/badge/coverage-85%25-yellowgreen)
+---
 
 # 👥 Thành viên thực hiện
 * **Nguyễn Bá Vũ Khoa** – 3122411097
@@ -21,6 +23,7 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 ## Mục lục
 
 - [🛒 E-Commerce System](#-e-commerce-system)
+  - [     ](#-----)
 - [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
   - [Mục lục](#mục-lục)
   - [✨ Tính Năng Chính (Key Features)](#-tính-năng-chính-key-features)
