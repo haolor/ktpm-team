@@ -85,7 +85,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 <div align="center">
   <img src="D:\Project\ktpm-team\docs\image.png" width="700"/>
 </div>
-#### Mô hình Quan niệm (Conceptual Model)
+### Mô hình Quan niệm (Conceptual Model)
 
 <div align="center">
   <img src="docs/conceptual_model.png" width="800"/>
@@ -133,7 +133,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 * **"is a"**: Dòng này biểu thị sự kế thừa. Ví dụ, trong hộp "Quy Trình Thanh Toán", thực thể "Buyer" chính là một "User" từ hộp Kiểm Soát Truy Cập.
 * **Associations (Liên kết)**: Các đường nối giữa các thực thể (như từ Product đến Cart) thể hiện mối quan hệ dữ liệu, thường đi kèm với bản số (ví dụ: `1..*` nghĩa là quan hệ "một - nhiều").
 
-#### C4 Model - Chi tiết kiến trúc kỹ thuật
+### C4 Model - Chi tiết kiến trúc kỹ thuật
 
 #### 1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)
 Đây là bức tranh toàn cảnh về cách hệ thống tương tác với thế giới bên ngoài.
