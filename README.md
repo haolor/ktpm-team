@@ -86,7 +86,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 ### Mô hình Quan niệm (Conceptual Model)
 
 <div align="center">
-  <img src="D:\Project\ktpm-team\docs\conceptual_model.png" width="800"/>
+  <img src="docs/conceptual_model.png" width="800"/>
 </div>
 
 #### Các Phân Hệ Chức Năng Chính
