@@ -319,6 +319,24 @@ const orderService = {
       throw error;
     }
   },
+
+  // [MỚI] API Lấy link thanh toán VNPAY
+  createPaymentUrl: async (amount, orderId) => {
+    try {
+      // API: GET /payments/pay?paymentType=VNPAY
+      // Mình truyền thêm amount và orderId vào params để Backend map vào vnp_Amount và vnp_TxnRef
+      return await axiosClient.get("/payments/pay", {
+        params: {
+          paymentType: "VNPAY",
+          amount: amount, // Tổng tiền
+          orderId: orderId, // Mã đơn hàng vừa tạo
+        },
+      });
+    } catch (error) {
+      console.error("❌ [OrderService] Create Payment URL Failed:", error);
+      throw error;
+    }
+  },
 };
 
 export default orderService;
