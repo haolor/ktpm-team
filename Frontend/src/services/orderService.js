@@ -338,6 +338,17 @@ const orderService = {
     }
   },
 
+  vnpayReturn: async (queryString) => {
+    try {
+      // queryString sẽ là dạng "?vnp_Amount=...&..." lấy từ window.location.search
+      // API: GET /payments/vnpay/callback?vnp_Amount=...
+      return await axiosClient.get(`/payments/vnpay/callback${queryString}`);
+    } catch (error) {
+      console.error("❌ [OrderService] VNPAY Callback Failed:", error);
+      throw error;
+    }
+  },
+
   getOrdersByPage: async (storeId, page = 1, size = 100) => {
     try {
       // API: GET /orders/restaurant/{storeId}?page=1&size=100

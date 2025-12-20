@@ -701,10 +701,7 @@ const OrderInfoView = ({ order, customerInfo }) => {
               style={{ borderLeft: "none", paddingLeft: 0 }}
             >
               <p style={{ fontSize: "14px", margin: 0 }}>
-                Phương thức:{" "}
-                <strong>
-                  {order.paymentMethod === "VNPAY" ? "VNPAY" : "Tiền mặt"}
-                </strong>
+                Phương thức: <strong>VNPAY</strong>
               </p>
             </div>
           </div>

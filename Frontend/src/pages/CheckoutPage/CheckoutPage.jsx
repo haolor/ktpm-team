@@ -452,7 +452,7 @@ const CheckoutPage = () => {
                   Phương thức thanh toán
                 </p>
                 <div className={styles.paymentBtnContainer}>
-                  <button
+                  {/* <button
                     className={`${styles.paymentBtn} ${
                       state.paymentMethod === "CASH" ? styles.active : ""
                     }`}
@@ -460,7 +460,7 @@ const CheckoutPage = () => {
                   >
                     <i className="fa-regular fa-money-bill-1"></i>
                     <span>Tiền mặt</span>
-                  </button>
+                  </button> */}
                   <button
                     className={`${styles.paymentBtn} ${
                       state.paymentMethod === "VNPAY" ? styles.active : ""

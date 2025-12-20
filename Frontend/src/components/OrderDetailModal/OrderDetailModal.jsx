@@ -795,7 +795,14 @@ const OrderInfoView = ({ order, customerInfo }) => {
           <div className={styles.payRow}>
             <span className={styles.payLabel}>Phương thức thanh toán</span>
             <span className={styles.payValue}>
-              {order.paymentMethod === "VNPAY" ? (
+              <>
+                <i
+                  className="fa-solid fa-credit-card"
+                  style={{ color: "#005eb8", marginRight: "5px" }}
+                ></i>{" "}
+                VNPAY
+              </>
+              {/* {order.paymentMethod === "VNPAY" ? (
                 <>
                   <i
                     className="fa-solid fa-credit-card"
@@ -811,7 +818,7 @@ const OrderInfoView = ({ order, customerInfo }) => {
                   ></i>{" "}
                   Tiền mặt
                 </>
-              )}
+              )} */}
             </span>
           </div>
         </div>
