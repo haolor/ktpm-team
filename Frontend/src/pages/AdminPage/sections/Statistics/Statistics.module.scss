@@ -1,0 +1,462 @@
+/* src/pages/AdminPage/sections/Statistics/Statistics.module.scss */
+
+.section {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* --- 1. CONTROL BAR --- */
+.adminControl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  margin-bottom: 25px;
+}
+
+/* Search Bar */
+.controlGroupCenter {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  min-width: 250px;
+}
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+
+  input {
+    width: 100%;
+    height: 42px;
+    border-radius: 50px;
+    border: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    padding: 0 50px 0 20px;
+    font-size: 14px;
+    transition: all 0.2s;
+
+    &:focus {
+      background: #fff;
+      border-color: #b5292f;
+      box-shadow: 0 2px 8px rgba(181, 41, 47, 0.1);
+      outline: none;
+    }
+  }
+
+  .searchBtn {
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #b5292f;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+      background: #a02227;
+    }
+  }
+}
+
+/* Date & Actions */
+.controlGroupRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dateGroup {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+
+  input[type="date"] {
+    border: none;
+    background: transparent;
+    color: #555;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  span {
+    margin: 0 8px;
+    color: #ccc;
+  }
+}
+
+.btnGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  border-radius: 8px;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+    color: #333;
+  }
+  &.active {
+    background: #fff0f1;
+    border-color: #b5292f;
+    color: #b5292f;
+  }
+}
+
+.resetBtn {
+  @extend .iconBtn;
+  background: #f5f5f5;
+  border-color: transparent;
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+/* --- 2. OVERVIEW CARDS --- */
+.overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  span {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.cardIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+
+  &.blue {
+    background: #e3f2fd;
+    color: #1976d2;
+  }
+  &.orange {
+    background: #fff3e0;
+    color: #f57c00;
+  }
+  &.green {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+}
+
+/* --- 3. TABLE STYLES (Desktop Default) --- */
+.tableContainer {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 0;
+  overflow-x: auto;
+  margin-bottom: 30px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px; /* Đảm bảo không bị co quá nhỏ trên desktop */
+
+  th {
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #888;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f9f9f9;
+    vertical-align: middle;
+    color: #333;
+    font-size: 14px;
+  }
+
+  tr:hover td {
+    background-color: #fafafa;
+  }
+}
+
+/* Specific Columns Styles */
+.prodCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid #eee;
+    flex-shrink: 0;
+  }
+
+  .productInfo {
+    display: flex;
+    flex-direction: column;
+    strong {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 2px;
+    }
+    span {
+      font-size: 11px;
+      color: #999;
+    }
+  }
+}
+
+.revenueText {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+.btnDetail {
+  background: #fff;
+  border: 1px solid #ddd;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #555;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #b5292f;
+    color: #b5292f;
+    background: #fff5f5;
+  }
+}
+
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+
+/* ====================================================== */
+/* MOBILE RESPONSIVE (Dưới 992px)                       */
+/* ====================================================== */
+@media (max-width: 992px) {
+  .section {
+    padding: 15px;
+  }
+
+  /* 1. Stack Controls */
+  .adminControl {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 15px;
+  }
+  .controlGroupCenter,
+  .searchWrapper,
+  .controlGroupRight {
+    width: 100%;
+    max-width: 100%;
+  }
+  .dateGroup {
+    flex: 1;
+    justify-content: center;
+    input {
+      width: auto;
+    }
+  }
+
+  /* 2. Stack Cards */
+  .overviewGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* 3. CARD VIEW CHO TABLE (Fix lỗi vỡ layout) */
+  .tableContainer {
+    box-shadow: none;
+    background: transparent;
+    overflow: visible;
+  }
+
+  .table {
+    display: block;
+    min-width: 0;
+
+    thead {
+      display: none;
+    } /* Ẩn header bảng */
+    tbody {
+      display: block;
+    }
+
+    tr {
+      display: block;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      padding: 0 15px 15px 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Căn giữa dọc */
+      padding: 12px 0;
+      border-bottom: 1px dashed #f0f0f0;
+      font-size: 13px;
+      text-align: right;
+
+      /* Reset các style của desktop */
+      height: auto;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      /* Hiển thị Label (Tiêu đề cột) bên trái */
+      &::before {
+        content: attr(data-label); /* Lấy từ JSX data-label="..." */
+        font-weight: 600;
+        color: #888;
+        font-size: 12px;
+        text-align: left;
+        margin-right: 20px;
+        min-width: 80px; /* Cố định chiều rộng label để thẳng hàng */
+      }
+    }
+
+    /* --- TÙY CHỈNH RIÊNG CHO BẢNG SẢN PHẨM --- */
+
+    /* Cột chứa .prodCell (Hình + Tên) -> Làm Header Card */
+    td:has(.prodCell) {
+      flex-direction: row; /* Giữ nguyên dòng */
+      background: #f8f9fa;
+      margin: 0 -15px 10px -15px; /* Kéo full width card */
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      border-radius: 12px 12px 0 0;
+
+      &::before {
+        display: none;
+      } /* Ẩn label "Thông tin món" đi */
+
+      .prodCell {
+        width: 100%;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+        .productInfo strong {
+          font-size: 15px;
+          color: #b5292f;
+        }
+      }
+    }
+
+    /* Ẩn cột Hạng (Rank) cho gọn, hoặc hiển thị nhỏ */
+    td[data-label="Hạng"] {
+      display: none;
+    }
+
+    /* --- TÙY CHỈNH RIÊNG CHO BẢNG ĐƠN HÀNG --- */
+
+    /* Cột đầu tiên (Mã đơn) làm Header Card */
+    /* Loại trừ trường hợp bảng sản phẩm (vì bảng SP cột 1 là Hạng, đã ẩn ở trên) */
+    td:first-child:not([data-label="Hạng"]) {
+      justify-content: space-between;
+      background: #f8f9fa;
+      margin: 0 -15px 10px -15px;
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      border-radius: 12px 12px 0 0;
+      font-weight: bold;
+      color: #333;
+      font-size: 15px;
+
+      &::before {
+        display: none;
+      } /* Ẩn label "Mã đơn" */
+    }
+
+    /* Cột Khách hàng (Chứa div 2 dòng) */
+    /* Cần căn chỉnh flex để nội dung bên phải thẳng hàng */
+    td:has(div) {
+      align-items: flex-start; /* Căn lề trên */
+      div {
+        text-align: right; /* Căn phải text bên trong */
+      }
+    }
+  }
+}

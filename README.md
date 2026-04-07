@@ -8,6 +8,8 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 
 
 ---
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/) [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg)](https://spring.io/projects/spring-boot) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue.svg)](https://www.postgresql.org/) [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Test Coverage](https://img.shields.io/badge/coverage-85%25-yellowgreen)
+---
 
 # 👥 Thành viên thực hiện
 * **Nguyễn Bá Vũ Khoa** – 3122411097
@@ -19,27 +21,45 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 ---
 
 ## Mục lục
+
 - [🛒 E-Commerce System](#-e-commerce-system)
-  - [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
+  - [     ](#-----)
+- [👥 Thành viên thực hiện](#-thành-viên-thực-hiện)
   - [Mục lục](#mục-lục)
   - [✨ Tính Năng Chính (Key Features)](#-tính-năng-chính-key-features)
   - [🏗️ Kiến trúc tổng thể](#️-kiến-trúc-tổng-thể)
+    - [Conceptual Model](#conceptual-model)
+      - [Các Phân Hệ Chức Năng Chính](#các-phân-hệ-chức-năng-chính)
+      - [Các Mối Quan Hệ](#các-mối-quan-hệ)
+    - [C4 Model](#c4-model)
+      - [1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)](#1-tổng-quan-kiến-trúc-hệ-thống-c1---system-context)
+      - [2. Kiến trúc Container (C2 - Container View)](#2-kiến-trúc-container-c2---container-view)
+      - [3. Kiến trúc Component (C3 - Backend Structure)](#3-kiến-trúc-component-c3---backend-structure)
+      - [4. Chi tiết Mã nguồn (C4 - Code Level)](#4-chi-tiết-mã-nguồn-c4---code-level)
   - [🛠 Công nghệ sử dụng](#-công-nghệ-sử-dụng)
   - [📂 Cấu trúc thư mục (tóm tắt)](#-cấu-trúc-thư-mục-tóm-tắt)
   - [📚 Yêu cầu](#-yêu-cầu)
   - [⚙️ Cài đặt \& Chạy dự án](#️-cài-đặt--chạy-dự-án)
   - [📡 API Documentation](#-api-documentation)
-    - [Endpoints](#endpoints)
-      - [Auth](#auth)
+    - [Swagger UI](#swagger-ui)
+    - [Các endpoint chính](#các-endpoint-chính)
+      - [🔐 Authentication](#-authentication)
       - [Product](#product)
       - [Cart](#cart)
       - [Order](#order)
       - [Payment](#payment)
-  - [Response Schema](#response-schema)
-  - [Bảo mật](#bảo-mật)
+  - [📝Response Schema](#response-schema)
+  - [🛡️Bảo mật](#️bảo-mật)
+    - [Authentication \& Authorization](#authentication--authorization)
+    - [Security Features](#security-features)
   - [⚡ Redis \& Security Strategy](#-redis--security-strategy)
-  - [Testing](#testing)
+  - [🧪Testing](#testing)
   - [🐳 Docker \& Triển khai (Deployment)](#-docker--triển-khai-deployment)
+  - [🌐 Deployment Production \& Monitoring](#-deployment-production--monitoring)
+  - [📊 Monitoring](#-monitoring)
+    - [Health Checks](#health-checks)
+    - [Metrics](#metrics)
+    - [Logging](#logging)
   - [📄 License](#-license)
 
 ---
@@ -81,12 +101,12 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 </div>
 
 <div align="center">
-  <img src="D:\Project\ktpm-team\docs\image.png" width="700"/>
+  <img src="docs/image.png" width="700"/>
 </div>
-### Mô hình Quan niệm (Conceptual Model)
+### Conceptual Model
 
 <div align="center">
-  <img src="C:\Users\Admin\ktpm-team\docs\conceptual_model.png" width="800"/>
+  <img src="docs/conceptual_model.png" width="800"/>
 </div>
 
 #### Các Phân Hệ Chức Năng Chính
@@ -131,13 +151,13 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 * **"is a"**: Dòng này biểu thị sự kế thừa. Ví dụ, trong hộp "Quy Trình Thanh Toán", thực thể "Buyer" chính là một "User" từ hộp Kiểm Soát Truy Cập.
 * **Associations (Liên kết)**: Các đường nối giữa các thực thể (như từ Product đến Cart) thể hiện mối quan hệ dữ liệu, thường đi kèm với bản số (ví dụ: `1..*` nghĩa là quan hệ "một - nhiều").
 
-### C4 Model - Chi tiết kiến trúc kỹ thuật
+### C4 Model
 
 #### 1. Tổng quan Kiến trúc Hệ thống (C1 - System Context)
 Đây là bức tranh toàn cảnh về cách hệ thống tương tác với thế giới bên ngoài.
 
 <div align="center">
-  <img src="c1.png" width="800"/>
+  <img src="docs/c1.png" width="800"/>
 </div>
 
 * **Người dùng (Actors):**
@@ -154,7 +174,7 @@ Hệ thống cung cấp đầy đủ các chức năng của một sàn thương
 Phần này mô tả các "thùng chứa" công nghệ và giao thức giao tiếp.
 
 <div align="center">
-  <img src="c2.drawio.png" width="800"/>
+  <img src="docs/c2.png" width="800"/>
 </div>
 
 * **Web Frontend (React):**
@@ -172,12 +192,12 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **C3 - High Level Component**
 <div align="center">
-  <img src="c3high.drawio.png" width="800"/>
+  <img src="docs/c3high.png" width="800"/>
 </div>
 
 **C3 - Module Level Component**
 <div align="center">
-  <img src="c3module.drawio.png" width="100%"/>
+  <img src="docs/c3module.png" width="100%"/>
 </div>
 
 * **Phân lớp (Layers):**
@@ -198,7 +218,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **A. Account/Auth Aggregate (Xác thực & Người dùng)**
 <div align="center">
-  <img src="c4-account.drawio.png" width="800"/>
+  <img src="docs/c4-account.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -211,7 +231,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **B. Product/Catalog Aggregate (Sản phẩm)**
 <div align="center">
-  <img src="c4-product.drawio.png" width="800"/>
+  <img src="docs/c4-product.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -222,7 +242,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **C. Orders/Cart Aggregate (Đơn hàng)**
 <div align="center">
-  <img src="c4-order_cart.drawio.png" width="800"/>
+  <img src="docs/c4-order_cart.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -234,7 +254,7 @@ Backend được chia thành các lớp (Layered Architecture) và các Module n
 
 **D. Payment Aggregate (Thanh toán)**
 <div align="center">
-  <img src="c4-payment.drawio.png" width="800"/>
+  <img src="docs/c4-payment.png" width="800"/>
 </div>
 
 * **Entity chính:**
@@ -358,8 +378,18 @@ Tài liệu mô tả các RESTful API của hệ thống Backend.
 * **Format**: JSON
 * **Pagination**: Sử dụng `page` và `size` làm query parameters
 
-### Endpoints
-#### Auth
+### Swagger UI
+Sau khi khởi động ứng dụng, truy cập:
+```
+http://localhost:8080/api/v1/swagger-ui/index.html
+```
+<div align="center">
+  <img src="docs/swagger.png" width="800"/>
+</div>
+
+
+### Các endpoint chính
+#### 🔐 Authentication
 - POST /auth/register — đăng ký người dùng mới
   - body: {username, password, email, roles}
   - Response: 201 {id, username, email, roles}
@@ -481,7 +511,7 @@ Tài liệu mô tả các RESTful API của hệ thống Backend.
   - Response: 200 {message, orderStatus}
   
 
-## Response Schema
+## 📝Response Schema
 
 Tất cả API responses tuân theo cấu trúc chung sau:
 
@@ -532,12 +562,21 @@ Tất cả API responses tuân theo cấu trúc chung sau:
 
 ---
 
-## Bảo mật
+## 🛡️Bảo mật
 
-- Spring Security + JWT
-- Role-based access control: ROLE_USER, ROLE_ADMIN
-- Lưu JWT có thể bằng HTTP-only cookie hoặc lưu ở client và trả qua header Authorization
-- Các API nhạy cảm chỉ cho phép role tương ứng
+### Authentication & Authorization
+- **JWT Tokens**: Stateless authentication
+- **BCrypt**: Password hashing
+- **Role-based Access Control**: Fine-grained permissions
+- **Multi-factor Authentication**: Optional 2FA
+
+### Security Features
+- **Input Validation**: Comprehensive validation
+- **SQL Injection Prevention**: Parameterized queries
+- **XSS Protection**: Output encoding
+- **CSRF Protection**: CSRF tokens
+- **Rate Limiting**: API throttling
+- **Brute Force Protection**: Account lockout
 
 ---
 
@@ -554,7 +593,7 @@ Trong dự án này, Redis **không** được sử dụng để cache dữ li�
 
 ---
 
-## Testing
+## 🧪Testing
 
 - Unit tests: JUnit 5 + Mockito
 - Integration tests: Testcontainers (Postgres, Redis)
@@ -594,8 +633,43 @@ cd ten-du-an
 docker-compose up -d --build
 
 ```
----
 
+---
+## 🌐 Deployment Production & Monitoring
+Hệ thống được deploy trên **Render** :
+<div align="center">
+  <img src="docs/render.png" width="800"/>
+</div>
+
+## 📊 Monitoring
+
+### Health Checks
+```bash
+# Application health
+curl http://localhost:8080/actuator/health
+
+# Detailed health
+curl http://localhost:8080/actuator/health/details
+```
+---
+### Metrics
+- **Spring Boot Actuator**: Built-in metrics
+- **Micrometer**: Metrics facade
+- **Prometheus**: Metrics collection
+- **Grafana**: Visualization
+
+### Logging
+- **SLF4J + Logback**: Structured logging
+- **Log levels**: Configurable per package
+- **Log rotation**: Daily rotation with retention
+- **Centralized logging**: ELK Stack integration
+---
 ## 📄 License
 - Dự án được phát triển cho mục đích học tập.
     
+
+---
+<div align="center">
+  <p><strong>⭐ Nếu project hữu ích, hãy cho chúng tôi một star nhé! ⭐</strong></p>
+  <p>Được phát triển với ❤️ bởi <strong>KTPM Team</strong></p>
+</div>
