@@ -8,6 +8,9 @@ on:
 jobs:
   ci-pipeline:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Backend
 
     steps:
       # 1️⃣ Checkout source code
@@ -43,7 +46,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v7
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./Backend
+          file: ./Backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
