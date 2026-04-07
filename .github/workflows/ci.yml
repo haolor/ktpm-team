@@ -1,20 +1,13 @@
 name: CI + CD (Delivery) - Spring Boot
+run-name: ${{github.actor}}
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
-  ci-cd:
+  ci-pipeline:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-    defaults:
-      run:
-        working-directory: Backend
 
     steps:
       # 1️⃣ Checkout source code
@@ -37,22 +30,20 @@ jobs:
       - name: Package Spring Boot JAR
         run: mvn -B -ntp clean package -DskipTests
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
       # 5️⃣ Login Docker Hub
       - name: Login Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 6️⃣ CD (Delivery): Build & Push Docker Image
-      - name: Build & Push Docker Image
-        run: |
-          docker build -t haolongd/springboot-app:latest .
-          docker push haolongd/springboot-app:latest
-
-      # 7️⃣ Trigger CD Deployment
-      - name: Trigger CD Deploy
-        uses: peter-evans/repository-dispatch@v3
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: deploy_trigger
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/spring-boot-app:latest
