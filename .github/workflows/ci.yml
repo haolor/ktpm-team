@@ -23,12 +23,12 @@ jobs:
           cache: 'maven'
 
       # 3️⃣ CI: Build + Unit Test
-      - name: Build & Unit Test
-        run: mvn -B -ntp clean test
+      - name: Run tests (Unit + Integration)
+        run: mvn test
 
       # 4️⃣ Build JAR (artifact)
-      - name: Package Spring Boot JAR
-        run: mvn -B -ntp clean package -DskipTests
+      - name: Build with Maven
+        run: mvn package -DskipTests
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
