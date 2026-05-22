@@ -16,7 +16,7 @@ Dự án được xây dựng theo mô hình **Layered Architecture (Controller 
 * **Đặng Minh Hào** – 3122411047
 * **Vũ Văn Minh** – 3122411129
 * **Lại Trần Trung Kiên** – 3122411102
-
+* **Vũ Hoàng Chung** –  3122560007
 
 ---
 
